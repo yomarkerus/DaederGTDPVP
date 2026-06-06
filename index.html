@@ -1776,12 +1776,12 @@ function refreshUI() {
 //   If Shocko banned:     use 4-ban loadout
 //
 // All 4 Big Four banned (main four ban loadout):
-//   Glowthorn · Vine Hair · Egg Bask · Confusi · Bounce Shroom
+//   Glowthorn · Hypnogaze(→Vine Hair) · Egg Bask · Confusi · Bounce Shroom
 //   with their own chains:
 //     Glowthorn chain: Snowmob → Starbud → Blinkbloom → Regen Flower
-//     Vine Hair chain: RB Conf → Bubbloom → Fan Flower
+//     Vine Hair slot:  Hypnogaze → Distort Flower → RB Conf → Vine Hair → Bubbloom → Fan Flower
 //     Egg Bask chain:  Subzero → Frost Golem → Ooga → Distort → Winterray
-//     Confusi chain:   RB Conf → Vine Hair → Bubbloom → ERose   (vine hair before bubbloom)
+//     Confusi chain:   RB Conf → Bubbloom → ERose
 //     Bounce chain:    Octoshroom → Distort → Firecore
 //
 // Snowmob chain (always): Festive Glowthorn → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot
@@ -1870,16 +1870,16 @@ function getRecommendedTeam() {
     const glowtChain = ['Snowmobile Shoveler','Starbud','Blinkbloom','Regen Flower'];
     const glowt = pick('Festive Glowthorn', glowtChain, 'Glowthorn');
 
-    // Vine Hair chain: Vine Hair → RB Conf → Bubbloom → Fan Flower
-    const vineChain = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
-    const vine = pick('Vine Hair', vineChain, 'Vine Hair');
+    // Vine Hair chain: Hypnogaze → Distort Flower → RB Conf → Vine Hair → Bubbloom → Fan Flower
+    const vineChain = ['Distort Flower','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower'];
+    const vine = pick('Hypnogaze Stem', vineChain, 'Vine Hair');
 
     // Egg Bask chain: Egg Bask → Subzero → Frost Golem → Ooga → Distort → Winterray
     const eggChainFour = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
     const egg = pick('Egg Basket Stem', eggChainFour, 'Egg Basket');
 
-    // Confusi chain: Confusi → RB Conf → Vine Hair → Bubbloom → ERose
-    const confuChainFour = ['Rainbow Confusion Plant','Vine Hair','Bubbloom','ERose'];
+    // Confusi chain: Confusi → RB Conf → Bubbloom → ERose
+    const confuChainFour = ['Rainbow Confusion Plant','Bubbloom','ERose'];
     const confu = pick('Confusiflora', confuChainFour, 'Confusiflora');
 
     // Bounce chain: Bounce Shroom → Firecore → Octoshroom → Distort
@@ -1905,10 +1905,10 @@ function getRecommendedTeam() {
     const keySlot = pick('Infectia', ['Shockolate Flora','Teslaflora','Bunny Burrow'], 'Key Unit');
     const eggChain3 = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
     const egg3 = pick('Egg Basket Stem', eggChain3, 'Egg Basket');
-    const confuChain3 = ['Rainbow Confusion Plant','Vine Hair','Bubbloom','ERose'];
+    const confuChain3 = ['Rainbow Confusion Plant','Bubbloom','ERose'];
     const confu3 = pick('Confusiflora', confuChain3, 'Confusiflora');
-    const vineChain3 = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
-    const vine3 = pick('Vine Hair', vineChain3, 'Vine Hair');
+    const vineChain3 = ['Distort Flower','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower'];
+    const vine3 = pick('Hypnogaze Stem', vineChain3, 'Vine Hair');
     return {
       units: [snow, keySlot, egg3, confu3, vine3],
       note: '3 of Big Four banned → Snow · ' + keySlot + ' · Egg Basket · Confusi · Vine Hair' +
@@ -1928,8 +1928,8 @@ function getRecommendedTeam() {
     const eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
     const confuChainBI = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');
-    const vineChainBI = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
-    const vineBI = pick('Vine Hair', vineChainBI, 'Vine Hair');
+    const vineChainBI = ['Distort Flower','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower'];
+    const vineBI = pick('Hypnogaze Stem', vineChainBI, 'Vine Hair');
     return {
       units: [snow, keyUnit, eggBI, confuBI, vineBI],
       note: 'Infectia + Bunny B banned → Snow · Shocko · Egg Basket · Confusi · Vine Hair' +
@@ -2015,7 +2015,7 @@ function getRecommendedTeam() {
 // ────────────────────────────────────────────
 // TAB 2: TEAM PREDICTOR
 //
-// DEFAULT: Festive Glowthorn · Egg Basket · Confusiflora · Transfig · Shockolate Flora
+// DEFAULT: Festive Glowthorn · Egg Basket · Confusiflora · Transfig · Shockolate Flora · Hypnogaze
 //
 // Slot 1 — Glowthorn (same chain as Tab 1 snowmob):
 //   Festive Glowthorn → Snowmobile Shoveler → Starbud → Blinkbloom → Regen Flower → Prismleaf → Electric Beetroot
@@ -2023,14 +2023,18 @@ function getRecommendedTeam() {
 // Slot 2 — Egg Basket:
 //   Egg Basket → Auranji → Witch Leaf → Frost Golem → Ooga Booga → Distort Flower
 //
-// Slot 3 — Confusiflora (same chain as Tab 1):
-//   Confusiflora → RB Conf → Vine Hair → Bubbloom → Fan Flower
+// Slot 3 — Confusiflora:
+//   Confusiflora → RB Conf → Bubbloom → Fan Flower
 //
 // Slot 4 — Transfig:
-//   Transfig → Hypno → Witch Leaf → Bounce Shroom → Octoshroom → Distort Flower → Firecore
+//   Transfig → Hypno → Witch Leaf → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort Flower
 //
 // Slot 5 — Shocko:
 //   Shockolate Flora → Bounce Shroom → Octoshroom → Distort Flower → Firecore
+//
+// Slot 6 — Vine Hair (priority rotation):
+//   Hypnogaze → Distort Flower → RB Confusion Plant → Vine Hair → Bubbloom → Fan Flower
+//   IF Transfig is unbanned: Hypnogaze → Distort Flower → RB Confusion Plant → Frost Golem → Vine Hair → Bubbloom → Fan Flower
 // ────────────────────────────────────────────
 function getRecommendedTeam_Tab2() {
   const isBanned = key => {
@@ -2080,12 +2084,12 @@ function getRecommendedTeam_Tab2() {
     ['Auranji','Witch Leaf','Frost Golem','Ooga Booga','Distort Flower'],
     'Egg Basket');
 
-  // ── SLOT 3: Confusiflora → RB Conf → Vine Hair → Bubbloom → Fan Flower ──
+  // ── SLOT 3: Confusiflora → RB Conf → Bubbloom → Fan Flower ──
   const slot3 = pick('Confusiflora',
-    ['Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower'],
+    ['Rainbow Confusion Plant','Bubbloom','Fan Flower'],
     'Confusiflora');
 
-  // ── SLOT 4: Transfig → Hypno → Witch Leaf → Bounce Shroom → Octoshroom → Distort Flower → Firecore ──
+  // ── SLOT 4: Transfig → Hypno → Witch Leaf → Bounce Shroom → Winterray → Firecore → Octoshroom → Distort Flower ──
   const slot4 = pick('Transfig',
     ['Hypnogaze Stem','Witch Leaf','Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
     'Transfig');
@@ -2095,8 +2099,24 @@ function getRecommendedTeam_Tab2() {
     ['Bounce Shroom','Winterray','Firecore','Octoshroom','Distort Flower'],
     'Shocko');
 
+  // ── VINE HAIR SLOT: Hypnogaze → Distort Flower → RB Confusion Plant → Vine Hair → Bubbloom → Fan Flower ──
+  // If Transfig is unbanned (i.e. slot4 resolved to Transfig), insert Frost Golem before Vine Hair.
+  const transfigAvailable = !isBanned('transfig') && !isBanned('transfiguration');
+  let slot6;
+  if (transfigAvailable) {
+    // Transfig is in play → Hypno → Distort → RB Conf → Frost Golem → Vine Hair → Bubbloom → Fan Flower
+    slot6 = pick('Hypnogaze Stem',
+      ['Distort Flower','Rainbow Confusion Plant','Frost Golem','Vine Hair','Bubbloom','Fan Flower'],
+      'Vine Hair slot');
+  } else {
+    // No Transfig → Hypno → Distort → RB Conf → Vine Hair → Bubbloom → Fan Flower
+    slot6 = pick('Hypnogaze Stem',
+      ['Distort Flower','Rainbow Confusion Plant','Vine Hair','Bubbloom','Fan Flower'],
+      'Vine Hair slot');
+  }
+
   return {
-    units: [slot1, slot2, slot3, slot4, slot5],
+    units: [slot1, slot2, slot3, slot4, slot5, slot6],
     note: swaps.length > 0 ? 'Tab 2 · Swaps: ' + swaps.join(' · ') : 'Tab 2 · No key bans — running optimal team'
   };
 }
