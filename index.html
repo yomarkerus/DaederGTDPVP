@@ -1352,50 +1352,236 @@ if (isAlreadyUnlocked()) {
 // UNIT NORMALIZER TABLES  (must be first — parseUnits uses these)
 // ────────────────────────────────────────────
 const TWO_WORD = {
-  'bunny b':'BunnyBurrow','bunny burrow':'BunnyBurrow','egg bask':'EggbaskStem',
-  'garden wizard':'GardenWizard','garden wiz':'GardenWizard','rb conf':'RainbowConf','rainbow conf':'RainbowConf',
-  'speed shoot':'SpeedShoot','subzero stem':'SubzeroStem','iced prism':'IcedPrism',
-  'ice dragon':'IceDragon','banana peel':'BananaPeel','watering can':'WateringCan',
-  'holo clover':'HoloClover','chicken coop':'ChickenCoop','fungal barr':'FungalBarr',
-  'stun flower':'StunFlower','bird fountain':'BirdFountain','blaze wood':'Blazewood',
-  'regen flower':'RegenFlower','ice buds':'Icebuds','shock shroom':'Shockshroom',
-  'winter ray':'Winterray','ooga booga':'OogaBooga','distort flower':'DistortFlower',
+  'bunny b':'Bunny Burrow','bunny burrow':'Bunny Burrow','egg bask':'Egg Basketstem',
+  'garden wizard':'Garden Wizard','garden wiz':'Garden Wizard','rb conf':'Rainbow Confusion Plant','rainbow conf':'Rainbow Confusion Plant',
+  'speed shoot':'Speed Shoot','subzero stem':'Subzero Stem','iced prism':'Iced Prismflower',
+  'ice dragon':'Ice Dragon','banana peel':'Banana Peel','watering can':'Watering Can',
+  'holo clover':'Holographic Clover','chicken coop':'Chicken Coop','fungal barr':'Fungal Barrage',
+  'stun flower':'Stun Flower','bird fountain':'Bird Fountain','blaze wood':'Blazewood',
+  'regen flower':'Regeneration Flower','ice buds':'Icebuds','shock shroom':'Shockshroom',
+  'winter ray':'Winterray','ooga booga':'Ooga Booga','distort flower':'Distortion Flower',
+  'fan flower':'Fan Flower','frost golem':'Frost Golem','electric beetroot':'Electric Beetroot',
+  'vine hair':'Vine Hair','cherry blossom':'Cherry Blossom','pine tree':'Pine Tree',
+  'easter lily':'Easter Lily','bonk seaweed':'Bonk Seaweed','pineapple cannon':'Pineapple Cannon',
+  'aloe vera':'Aloe Vera','dragon fruit':'Dragon Fruit','rolling log':'Rolling Log',
+  'floral ranger':'Floral Ranger','christmas tree':'Christmas Tree','vine sheriff':'Vine Sheriff',
+  'arc alienstalk':'Arc Alienstalk','ghost pepper':'Ghost Pepper','money tree':'Money Tree',
+  'rose trap':'Rose Trap','baby carrots':'Baby Carrots','chili pepper':'Chili Pepper',
+  'kiwi cannon':'Kiwi Cannon','venus floortrap':'Venus Floortrap','mushroom girl':'Mushroom Girl',
+  'bamboo pirate':'Bamboo Pirate','frozen vinejaw':'Frozen Vinejaw','bamboo barrage':'Bamboo Barrage',
+  'cyborg farmer':'Cyborg Farmer','snowmobile shoveler':'Snowmobile Shoveler','triorbital root':'Triorbital Root',
+  'eggsecutar gnome':'Eggsecutar Gnome','bubble coral':'Bubble Coral','palm tree':'Palm Tree',
+  'fruit molotov':'Fruit Molotov','lemon tree':'Lemon Tree','sonic bloom':'Sonic Bloom',
+  'pak choi':'Pak Choi','garden fairy':'Garden Fairy','bonsai tree':'Bonsai Tree',
+  'twilight pod':'Twilight Pod','dual barralled eggplant':'Dual-Barralled Eggplant',
+  'molten pumpkin':'Molten Pumpkin','rolling wreath':'Rolling Wreath','coconut cannon':'Coconut Cannon',
+  'plasma petal':'Plasma Petal','wrecking cornball':'Wrecking Cornball','garden elf grenadier':'Garden Elf Grenadier',
+  'hoppin petal':'Hoppin Petal','hot cross bunsia':'Hot Cross Bunsia','speed sprinkler':'Speed Sprinkler',
+  'repair worker':'Repair Worker','fan flower':'Fan Flower','peas in a pod':'Peas In A Pod',
+  'grave crawler':'Grave Crawler','garden alien':'Garden Alien','ufo seedling':'UFO Seedling',
+  'cursed fruit':'Cursed Fruit','gingerbread seedmill':'Gingerbread Seedmill','quantum stalk':'Quantum Stalk',
+  'choco flower':'Choco Flower','eggfectious vine':'Eggfectious Vine','mango cluster':'Mango Cluster',
+  'lucky clover':'Lucky Clover','tiki tower':'Tiki Tower','lil stump':'Lil Stump',
+  'bubble plant':'Bubble Plant','seed mech':'Seed Mech','atomic pepper':'Atomic Pepper',
+  'passion shooter':'Passion Shooter','chomp man':'Chomp Man','super sprout':'Super Sprout',
+  'spider lily':'Spider Lily','stretch plant':'Stretch Plant','robo flower':'Robo Flower',
+  'hummified pepper':'Hummified Pepper','fungal barrage':'Fungal Barrage','ghost shroom':'Ghost Shroom',
+  'enchanting rose':'Enchanting Rose','garden wizard':'Garden Wizard','peppermint supernova':'Peppermint Supernova',
+  'winterray flower':'Winterray Flower','celestial stem':'Celestial Stem','distortion flower':'Distortion Flower',
+  'eggbean stem':'Eggbean Stem','eggsnare sprout':'Eggsnare Sprout','sea dragon':'Sea Dragon',
+  'electric beetroot':'Electric Beetroot','big mushroom':'Big Mushroom','blossom barrage':'Blossom Barrage',
+  'dual blasterbud':'Dual Blasterbud','earth dragon':'Earth Dragon','egg plantinum':'Egg Plantinum',
+  'astral blossom':'Astral Blossom','strongest punch potato':'Strongest Punch Potato','infinity petal':'Infinity Petal',
+  'gnomatic saw':'Gnomatic Saw','solarian bloom':'Solarian Bloom','elemental bloom':'Elemental Bloom',
+  'echosonic bloom':'Echosonic Bloom','rainbow tomato':'Rainbow Tomato','rainbow dandelion':'Rainbow Dandelion',
+  'rainbow baby carrots':'Rainbow Baby Carrots','rainbow bamboo':'Rainbow Bamboo','rainbow pumpkin':'Rainbow Pumpkin',
+  'rainbow pumpkrawler':'Rainbow Pumpkrawler','rainbow scarecrow':'Rainbow Scarecrow','rainbow chili pepper':'Rainbow Chili Pepper',
+  'galactic shroom':'Galactic Shroom','black clover':'Black Clover','double sunflower':'Double Sunflower',
+  'bee stinger':'Bee Stinger','inferno bloom':'Inferno Bloom','floral overseer':'Floral Overseer',
+  'corrupted stem':'Corrupted Stem','saw o lantern':'Saw O Lantern','ion iris':'Ion Iris',
+  'diamond nightshade':'Diamond Nightshade','masters banana peel':'Masters Banana Peel',
+  'champions bee stinger':'Champions Bee Stinger','candycane bloom':'Candycane Bloom',
+  'plant in the box':'Plant in the Box','regeneration flower':'Regeneration Flower',
+  'toxic mushroom':'Toxic Mushroom','lava flower':'Lava Flower','transfiguration flower':'Transfiguration Flower',
+  'festive glowthorn':'Festive Glowthorn','butterfly hut':'Butterfly Hut','dark shardpetal':'Dark Shardpetal',
+  'loveburst bloom':'Loveburst Bloom','charm blossom':'Charm Blossom','festive bulbpetal':'Festive Bulbpetal',
+  'star fruit':'Star Fruit','corn commander':'Corn Commander','festive garden warbell':'Festive Garden Warbell',
+  'dream petal':'Dream Petal','splitjaw flytrap':'Splitjaw Flytrap','iris of thorns':'Iris of Thorns',
+  'shroom overlord':'Shroom Overlord','iced prismflower':'Iced Prismflower','holographic clover':'Holographic Clover',
+  'obsidian rose':'Obsidian Rose','kaboom shroom':'Kaboom Shroom','laser lily':'Laser Lily',
+  'shiny lump of coal':'Shiny Lump Of Coal','egg basketstem':'Egg Basketstem','bunny mech':'Bunny Mech',
+  'firecore stem':'Firecore Stem','rainbow sawflower':'Rainbow Sawflower','rainbow dragonfruit':'Rainbow Dragonfruit',
+  'rainbow mushroom':'Rainbow Mushroom','rainbow pak choi':'Rainbow Pak Choi','rainbow laser plant':'Rainbow Laser Plant',
+  'rainbow pyropetal':'Rainbow Pyropetal','rainbow confusion plant':'Rainbow Confusion Plant',
+  'hypnogaze stem':'Hypnogaze Stem','sentry stem':'Sentry Stem','treasure trap':'Treasure Trap',
+  'axolotl hideout':'Axolotl Hideout','squid plant':'Squid Plant',
+  'pyrocopter root':'Pyrocopter Root','magmanana peel':'Magmanana Peel','lava leaf':'Lava Leaf',
+  'ember flower':'Ember Flower','overlord stem':'Overlord Stem',
 };
 const SINGLE = {
-  'bunnyburrow':'BunnyBurrow','bunnyborrow':'BunnyBurrow',
-  'shocko':'Shockoflora','shockoflora':'Shockoflora','shockflora':'Shockoflora','shockolateflora':'Shockoflora',
-  'distort':'DistortFlower','distortflower':'DistortFlower',
-  'transfig':'Transfig','transfigflower':'Transfig',
-  'eggbask':'EggbaskStem','eggbaskstem':'EggbaskStem',
-  'confusiflora':'Confusiflora','conf':'Confusiflora','confusion':'Confusiflora',
-  'hypno':'Hypnogaze','hypnogaze':'Hypnogaze','hypnogazed':'Hypnogaze',
-  'rainbowconf':'RainbowConf','rb':'RainbowConf',
+  // Bunny Burrow
+  'bunnyburrow':'Bunny Burrow','bunnyborrow':'Bunny Burrow','bunnyb':'Bunny Burrow',
+  // Shockolateflora
+  'shocko':'Shockolateflora','shockoflora':'Shockolateflora','shockflora':'Shockolateflora',
+  'shockolateflora':'Shockolateflora','shockolate':'Shockolateflora',
+  // Distortion Flower
+  'distort':'Distortion Flower','distortflower':'Distortion Flower','distortionflower':'Distortion Flower',
+  // Transfiguration Flower
+  'transfig':'Transfiguration Flower','transfigflower':'Transfiguration Flower','transfiguration':'Transfiguration Flower',
+  // Egg Basketstem
+  'eggbask':'Egg Basketstem','eggbaskstem':'Egg Basketstem','eggbasketstem':'Egg Basketstem','eggbasket':'Egg Basketstem',
+  // Confusiflora
+  'confusiflora':'Confusiflora','conf':'Confusiflora','confusion':'Confusiflora','confu':'Confusiflora',
+  // Hypnogaze Stem
+  'hypno':'Hypnogaze Stem','hypnogaze':'Hypnogaze Stem','hypnogazed':'Hypnogaze Stem','hypnogazestem':'Hypnogaze Stem',
+  // Rainbow Confusion Plant
+  'rainbowconf':'Rainbow Confusion Plant','rb':'Rainbow Confusion Plant','rbconf':'Rainbow Confusion Plant',
+  // Teslaflora
   'teslaflora':'Teslaflora','telsa':'Teslaflora','tesla':'Teslaflora',
-  'snowmob':'Snowmobile','snowmobile':'Snowmobile',
-  'gardenwizard':'GardenWizard','gardenwiz':'GardenWizard','ooga':'OogaBooga','oogabooga':'OogaBooga',
-  'infectia':'Infectia','starbud':'Starbud','blinkbloom':'Blinkbloom',
-  'glowthorn':'Glowthorn','prismleaf':'Prismleaf','speedshoot':'SpeedShoot',
-  'subzerostem':'SubzeroStem','icedprism':'IcedPrism','firecore':'Firecore',
-  'winterray':'Winterray','auranji':'Auranji','bouncing':'Bouncing',
-  'cryolesia':'Cryolesia','erose':'ERose','dynosprout':'Dynosprout','lulla':'Lulla',
-  'snowman':'Snowman','icedragon':'IceDragon','bananapeel':'BananaPeel',
-  'lawnmower':'Lawnmower','rosemire':'Rosemire','wateringcan':'WateringCan',
-  'holoclover':'HoloClover','chickencoop':'ChickenCoop','fungalbarr':'FungalBarr',
-  'icebuds':'Icebuds','stunflower':'StunFlower','octoshroom':'Octoshroom',
-  'regenflower':'RegenFlower','birdfountain':'BirdFountain','blazewood':'Blazewood',
-  'galaxiflora':'Galaxiflora','shockshroom':'Shockshroom',
-  'bronzeinfectia':'Infectia','goldinfectica':'Infectia',
-  'bulbpetal':'Bulbpetal',
+  // Snowmobile Shoveler
+  'snowmob':'Snowmobile Shoveler','snowmobile':'Snowmobile Shoveler','snowmobileshoveler':'Snowmobile Shoveler','snow':'Snowmobile Shoveler',
+  // Garden Wizard
+  'gardenwizard':'Garden Wizard','gardenwiz':'Garden Wizard',
+  // Ooga Booga
+  'ooga':'Ooga Booga','oogabooga':'Ooga Booga',
+  // Infectia
+  'infectia':'Infectia','bronzeinfectia':'Infectia','goldinfectia':'Infectia','goldinfectica':'Infectia',
+  // Starbud
+  'starbud':'Starbud',
+  // Blinkbloom
+  'blinkbloom':'Blinkbloom','blink':'Blinkbloom',
+  // Festive Glowthorn
+  'glowthorn':'Festive Glowthorn','festiveglowthorn':'Festive Glowthorn','glowt':'Festive Glowthorn',
+  // Prismleaf
+  'prismleaf':'Prismleaf',
+  // Speed Shoot
+  'speedshoot':'Speed Shoot',
+  // Subzero Stem
+  'subzerostem':'Subzero Stem','subzero':'Subzero Stem',
+  // Iced Prismflower
+  'icedprism':'Iced Prismflower','icedprismflower':'Iced Prismflower',
+  // Firecore Stem
+  'firecore':'Firecore Stem','firecorestem':'Firecore Stem',
+  // Winterray
+  'winterray':'Winterray',
+  // Auranji
+  'auranji':'Auranji',
+  // Cryolesia
+  'cryolesia':'Cryolesia',
+  // ERose / Enchanting Rose
+  'erose':'Enchanting Rose','enchantingrose':'Enchanting Rose',
+  // Dynosprout / Dynospout
+  'dynosprout':'Dynospout','dynospout':'Dynospout',
+  // Lullabloom
+  'lulla':'Lullabloom','lullabloom':'Lullabloom',
+  // Snowman
+  'snowman':'Snowman',
+  // Ice Dragon
+  'icedragon':'Ice Dragon',
+  // Banana Peel
+  'bananapeel':'Banana Peel',
+  // Lawnmower
+  'lawnmower':'Lawnmower',
+  // Rosemire
+  'rosemire':'Rosemire',
+  // Watering Can
+  'wateringcan':'Watering Can',
+  // Holographic Clover
+  'holoclover':'Holographic Clover','holographicclover':'Holographic Clover',
+  // Chicken Coop
+  'chickencoop':'Chicken Coop',
+  // Fungal Barrage
+  'fungalbarr':'Fungal Barrage','fungalbarrage':'Fungal Barrage',
+  // Icebuds
+  'icebuds':'Icebuds',
+  // Stun Flower
+  'stunflower':'Stun Flower',
+  // Octoshroom
+  'octoshroom':'Octoshroom',
+  // Regeneration Flower
+  'regenflower':'Regeneration Flower','regen':'Regeneration Flower','regenerationflower':'Regeneration Flower',
+  // Bird Fountain
+  'birdfountain':'Bird Fountain',
+  // Blazewood
+  'blazewood':'Blazewood',
+  // Galaxiflora
+  'galaxiflora':'Galaxiflora',
+  // Shockshroom
+  'shockshroom':'Shockshroom',
+  // Vine Hair
   'vinehair':'Vine Hair','vine':'Vine Hair',
-  'blink':'Blinkbloom',
+  // Treasure Trap
   'treasure':'Treasure Trap','treasuretrap':'Treasure Trap',
+  // Bubbloom
   'bubbloom':'Bubbloom','bubb':'Bubbloom',
+  // Fan Flower
   'fanflower':'Fan Flower','fan':'Fan Flower',
+  // Frost Golem
   'frostgolem':'Frost Golem','frost':'Frost Golem',
+  // Electric Beetroot
   'electricbeetroot':'Electric Beetroot','electricbeet':'Electric Beetroot','elecbeet':'Electric Beetroot',
-  'regenflower':'Regen Flower','regen':'Regen Flower','regenerationflower':'Regen Flower',
-  'firecore':'Firecore',
-  'distortflower':'Distort Flower','distort':'Distort Flower',
+  // Bouncing Shroom
+  'bounceshroom':'Bouncing Shroom','bounce':'Bouncing Shroom','bouncingshroom':'Bouncing Shroom',
+  // Overlord Stem
+  'overlord':'Overlord Stem','overlordStem':'Overlord Stem','overlordstem':'Overlord Stem',
+  // Witchleaf
+  'witch':'Witchleaf','witchleaf':'Witchleaf',
+  // Pyrocopter Root
+  'pyrocopter':'Pyrocopter Root','pyrocopterroot':'Pyrocopter Root',
+  // Magmanana Peel
+  'magmanana':'Magmanana Peel','magmananapeel':'Magmanana Peel',
+  // Lava Leaf
+  'lavaleaf':'Lava Leaf',
+  // Pyropod
+  'pyropod':'Pyropod',
+  // Ignisia
+  'ignisia':'Ignisia',
+  // Ember Flower
+  'emberflower':'Ember Flower','ember':'Ember Flower',
+  // Ashroom
+  'ashroom':'Ashroom',
+  // Fireflies
+  'fireflies':'Fireflies','firefly':'Fireflies',
+  // Volcaflora
+  'volcaflora':'Volcaflora','volca':'Volcaflora',
+  // Various other shorthands
+  'beehive':'Beehive','golem':'Golem','corn':'Corn',
+  'sunflower':'Sunflower','laser':'Laser Plant','laserplant':'Laser Plant',
+  'drillbulb':'Drillbulb','boombulb':'Boombulb','bamboo':'Bamboo',
+  'pumpkin':'Pumpkin','potato':'Potato','tomato':'Tomato','cactus':'Cactus',
+  'gnome':'Gnome','drone':'Drone','umbra':'Umbra','daisy':'Daisy',
+  'mermaid':'Mermaid','snowballer':'Snowballer','wysteria':'Wysteria',
+  'woodsmash':'Woodsmash','pesticider':'Pesticider','witchleaf':'Witchleaf',
+  'ghostshroom':'Ghost Shroom','kaboom':'Kaboom Shroom','kabooshroom':'Kaboom Shroom',
+  'voidanium':'Voidanium','magnetroot':'Magnetroot','rocketroot':'Rocketroot',
+  'astraflora':'Astraflora','powerstem':'Powerstem','toxibud':'Toxibud',
+  'bloominator':'Bloominator','bloomnova':'Bloomnova','nightspire':'Nightspire',
+  'nightshade':'Nightshade','voltshade':'Voltshade','gemspire':'Gemspire',
+  'splitjaw':'Splitjaw Flytrap','splitjawflytrap':'Splitjaw Flytrap',
+  'budstrike':'Budstrike','beamstalk':'Beamstalk','frostshade':'Frostshade',
+  'frankensprout':'Frankensprout','aethervine':'Aethervine',
+  'bloodvine':'Bloodvine','plasmaspore':'Plasmaspore','echofern':'Echofern',
+  'inkweed':'Inkweed','luminesia':'Luminesia','rafflesia':'Rafflesia',
+  'electroleaf':'Electroleaf','pyropetal':'Pyropetal','petairay':'Petairay',
+  'mudmauler':'Mudmauler','sporefang':'Sporefang','rangeleaf':'Rangeleaf',
+  'deathesia':'Deathesia','shadestool':'Shadestool','seedmill':'Seedmill',
+  'snowblossom':'Snowblossom','zapseed':'Zapseed','bloomscope':'Bloomscope',
+  'tridenthra':'Tridenthra','hydranthus':'Hydranthus',
+  'rosebeam':'Rosebeam','carrotastrophe':'Carrotastrophe','timekeeper':'Timekeeper',
+  'hellroot':'Hellroot','doompetal':'Doompetal','grapes':'Grapes',
+  'juggercorn':'Juggercorn','stickpetal':'Stickpetal','boomberries':'Boomberries',
+  'fisherman':'Fisherman','gnomeblitz':'Gnomeblitz','beestinger':'Bee Stinger',
+  'shufflecap':'Shufflecap','axolotl':'Axolotl Hideout','axolotlhideout':'Axolotl Hideout',
+  'squidplant':'Squid Plant','irisofthorns':'Iris of Thorns','shroomoverlord':'Shroom Overlord',
+  'obsidianrose':'Obsidian Rose','holographicclover':'Holographic Clover',
+  'corrupttedstem':'Corrupted Stem','multisawflower':'Multisawflower',
+  'mazecreeper':'Maze Creeper','ionris':'Ion Iris','ioniriis':'Ion Iris',
+  'candycanebloom':'Candycane Bloom','toxicmushroom':'Toxic Mushroom',
+  'lavaflower':'Lava Flower','butterflyhut':'Butterfly Hut','darkshardpetal':'Dark Shardpetal',
+  'loveburstbloom':'Loveburst Bloom','charmblossom':'Charm Blossom',
+  'festivebulbpetal':'Festive Bulbpetal','starfruit':'Star Fruit','corncommander':'Corn Commander',
+  'gnomebang':'Gnomebang','dreampetal':'Dream Petal','infernobloom':'Inferno Bloom',
+  'floraloveseer':'Floral Overseer','corrupted':'Corrupted Stem',
 };
 const JUNK = new Set(['idk','shi','some','other','and','the','a','an','of','in','on','at','to','is','it','f','w','l','or','but','yo']);
 
@@ -2075,20 +2261,24 @@ function getRecommendedTeam() {
   // ════════════════════════════════════════
   // CASE: INFECTIA + BUNNY B BOTH BANNED
   // KEY_UNITS chain: Shocko → Tesla
-  // Snow · Shocko(→Tesla) · Egg Bask · Confusi · Subzero
+  // Festive Glowthorn · Shocko(→Tesla) · Egg Bask · Confusi · Vine Hair
+  // Less spam coverage → swap Snow for Glowthorn, use Vine Hair line
   // ════════════════════════════════════════
   if (infectiaBanned && bunnyBanned) {
-    inUse.add(snow);
+    // Slot 1: Festive Glowthorn (vine hair loadout always uses Glowthorn, not Snow)
+    const glowtChainBI = ['Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
+    const glowtBI = pick('Festive Glowthorn', glowtChainBI, 'Glowthorn');
     const keyUnit = pick('Shockolate Flora', ['Teslaflora'], 'Shocko/Tesla');
     const eggChainBI = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
     const eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
     const confuChainBI = ['Rainbow Confusion Plant','Bubbloom','Fan Flower'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');
-    const vineChainBI = ['Iced Prismflower','Vine Hair','Hypnogaze Stem','Bubbloom','Fan Flower'];
-    const vineBI = pick('Distort Flower', vineChainBI, 'Vine Hair');
+    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → ERose
+    const vineChainBI = ['Bubbloom','Fan Flower','ERose'];
+    const vineBI = pick('Vine Hair', vineChainBI, 'Vine Hair');
     return {
-      units: [snow, keyUnit, eggBI, confuBI, vineBI],
-      note: 'Infectia + Bunny B banned → Snow · Shocko · Egg Basket · Confusi · Vine Hair' +
+      units: [glowtBI, keyUnit, eggBI, confuBI, vineBI],
+      note: 'Infectia + Bunny B banned → Glowthorn · Shocko · Egg Basket · Confusi · Vine Hair' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }
@@ -2976,15 +3166,84 @@ else restoreTabUI();
 // FUZZY UNIT AUTOCORRECT
 // ────────────────────────────────────────────
 const KNOWN_UNITS = [
-  'Starbud','Infectia','BunnyBurrow','EggbaskStem','Confusiflora','Transfig',
-  'DistortFlower','Hypnogaze','Shockoflora','OogaBooga','Blinkbloom','Glowthorn',
-  'Prismleaf','Snowmobile','SpeedShoot','RainbowConf','Teslaflora','Firecore',
-  'IcedPrism','SubzeroStem','Winterray','Auranji','Cryolesia','ERose',
-  'Dynosprout','Lulla','Snowman','IceDragon','BananaPeel','Lawnmower','Rosemire',
-  'WateringCan','HoloClover','ChickenCoop','FungalBarr','Icebuds','StunFlower',
-  'Octoshroom','RegenFlower','BirdFountain','Blazewood','Galaxiflora','Shockshroom',
-  'GardenWizard','Bulbpetal','Transfig',
-  'Bubbloom','FanFlower','FrostGolem','ElectricBeetroot','Firecore','DistortFlower',
+  // ── COMMON ──
+  'Tomato','Cactus','Onion','Pomegranate','Radish',
+  'Sawflower','Cabbage','Vines','Lumberjack','Slingshot',
+  'Cherry Blossom','Pine Tree','Headless','Rootolaw','Stunnion',
+  'Easter Lily','Bonk Seaweed',
+  // ── UNCOMMON ──
+  'Farmer','Strawberry','Gnome','Eggplant','Pineapple Cannon',
+  'Potato','Aloe Vera','Dragon Fruit','Scarecrow','Dandelion',
+  'Spikeroot','Groundbreaker','Rolling Log','Dashroom','Decayroot',
+  'Vine Hair','Floral Ranger','Christmas Tree','Vine Sheriff','Daisy',
+  'Arc Alienstalk','Skeleflower','Holly','Eggapult','Chocopuddle Petal',
+  // ── RARE ──
+  'Cherries','Pumpkin','Ghost Pepper','Money Tree','Stapleaf',
+  'Stemstrike','Bamboo','Rose Trap','Mushroom','Baby Carrots',
+  'Chili Pepper','Garlicopter','Durian','Grandma','Kiwi Cannon',
+  'Venus Floortrap','Drillbulb','Pumpkrawler','Linkberry','Mushroom Girl',
+  'Applepult','Bamboo Pirate','Pumpkrow','Gluebulb','Frozen Vinejaw',
+  'Bamboo Barrage','Cyborg Farmer','Snowmobile Shoveler','Triorbital Root','Poisonroot',
+  'Gooseberries','Eggsecutar Gnome','Speed Shoot','Bubble Coral',
+  // ── EPIC ──
+  'Boombulb','Palm Tree','Fruit Molotov','Broccoli','Lemon Tree',
+  'Sonic Bloom','Drone','Pak Choi','Umbra','Garden Fairy',
+  'Bonsai Tree','PlantBuster','Twilight Pod','Caulicannon','Dual-Barralled Eggplant',
+  'Molten Pumpkin','Wysteria','Fragpetal','Inferno Stump','Turf Tanker',
+  'Woodsmash','Snowballer','Rolling Wreath','Coconut Cannon','Plasma Petal',
+  'Wrecking Cornball','Snowman','Garden Elf Grenadier','Hoppin Petal','Hot Cross Bunsia',
+  'Mermaid','Bubbloom',
+  // ── LEGENDARY ──
+  'Repair Worker','Speed Sprinkler','Lawnmower','Blueberries','Fan Flower',
+  'Peas In A Pod','Walnut','Potshade','Sunflower','Watermelon',
+  'Laser Plant','Blackberries','Garden Alien','Thornzilla','Grave Crawler',
+  'Plasmaspore','Rosemire','UFO Seedling','Cursed Fruit','Aurabloom',
+  'Snowspare','Echofern','Gingerbread Seedmill','Quantum Stalk','Seedmill',
+  'Choco Flower','Eggfectious Vine','Inkweed','Luminesia',
+  // ── GODLY ──
+  'Icebuds','Mango Cluster','Stun Flower','Rafflesia','Ballistic Banana',
+  'Confusion Plant','Lucky Clover','Tiki Tower','Electroleaf','Lil Stump',
+  'Pyropetal','Beehive','Bubble Plant','Petairay','Prismleaf',
+  'Venus Flytrap','Bloodvine','Pesticider','Seed Mech','Atomic Pepper',
+  'Passion Shooter','Shadestool','Chomp Man','Super Sprout','Spider Lily',
+  'Mudmauler','Stretch Plant','Sporefang','Robo Flower','Rangeleaf',
+  'Hummified Pepper','Deathesia','Fungal Barrage','Witchleaf','Ghost Shroom',
+  'Enchanting Rose','Garden Wizard','Snowblossom','Subzero Stem','Zapseed',
+  'Galaxiflora','Bouncing Shroom','Peppermint Supernova','Winterray Flower','Celestial Stem',
+  'Distortion Flower','Eggbean Stem','Bloomscope','Bunny Burrow','Egg Petalado',
+  'Eggsnare Sprout','Tridenthra','Sea Dragon',
+  // ── EXCLUSIVE ──
+  'Electric Beetroot','Doompetal','Grapes','Hellroot','Big Mushroom',
+  'Corn','Golem','Juggercorn','Blossom Barrage','Dual Blasterbud',
+  'Rosebeam','Carrotastrophe','Timekeeper','Earth Dragon','Egg Plantinum',
+  'Astral Blossom','Ooga Booga','Budstrike','Strongest Punch Potato','Infinity Petal',
+  'Stickpetal','Gnomatic Saw','Frostshade','Solarian Bloom','Beamstalk',
+  'Voltshade','Elemental Bloom','Echosonic Bloom','Rainbow Tomato','Rainbow Dandelion',
+  'Boomberries','Rainbow Baby Carrots','Rainbow Bamboo','Rainbow Pumpkin','Rainbow Pumpkrawler',
+  'Rainbow Scarecrow','Rainbow Chili Pepper','Fisherman','Galactic Shroom','Nightshade',
+  'Chilly Pepper','Black Clover','Double Sunflower','Gnomeblitz','Auranji',
+  'Bee Stinger','Frankensprout','Teslaflora','Bloomnova','Inferno Bloom',
+  'Floral Overseer','Nightspire','Aethervine','Corrupted Stem','Multisawflower',
+  'Watering Can','Maze Creeper','Saw O Lantern','Octoshroom','Ion Iris',
+  'Banana Peel','Diamond Nightshade','Masters Banana Peel','Champions Bee Stinger','Candycane Bloom',
+  'Frost Golem','Plant in the Box','Ice Dragon','Regeneration Flower','Toxibud',
+  'Toxic Mushroom','Lava Flower','Shufflecap','Transfiguration Flower','Festive Glowthorn',
+  'Butterfly Hut','Dark Shardpetal','Loveburst Bloom','Charm Blossom','Festive Bulbpetal',
+  'Star Fruit','Corn Commander','Gnomebang','Festive Garden Warbell','Shockshroom',
+  'Dream Petal','Gemspire','Blazewood','Cryolesia','Splitjaw Flytrap',
+  'Bloominator','Iris of Thorns','Shroom Overlord','Rocketroot','Iced Prismflower',
+  'Holographic Clover','Obsidian Rose','Astraflora','Kaboom Shroom','Bird Fountain',
+  'Powerstem','Infectia','Chicken Coop','Laser Lily','Confusiflora',
+  'Shiny Lump Of Coal','Shockolateflora','Egg Basketstem','Bunny Mech','Blinkbloom',
+  'Firecore Stem','Voidanium','Magnetroot','Rainbow Sawflower','Rainbow Dragonfruit',
+  'Rainbow Mushroom','Rainbow Pak Choi','Rainbow Laser Plant','Rainbow Pyropetal','Rainbow Confusion Plant',
+  'Lullabloom','Hypnogaze Stem','Dynospout','Starbud','Sentry Stem',
+  'Treasure Trap','Axolotl Hideout','Squid Plant','Hydranthus',
+  // ── MISSING / EXTRA ──
+  'Fireflies','Volcaflora',
+  'Pyrocopter Root','Magmanana Peel','Lava Leaf','Pyropod',
+  'Ignisia','Ember Flower','Ashroom','Overlord Stem',
+  'ERose','Dynosprout','Winterray',
 ];
 
 function levenshtein(a, b) {
