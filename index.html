@@ -32,15 +32,15 @@
   --win:         #3aaa18;
   --loss:        #cc4010;
   --gold:        #c88c10;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(135,190,230,0.25), transparent 50%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(80,170,80,0.18), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(200,130,60,0.18), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(180,100,30,0.20), transparent 55%);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh;line-height:1.5;overflow-x:hidden}
 body{
-  background-image:
-    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(135,190,230,0.25), transparent 50%),
-    radial-gradient(ellipse 70% 50% at 0% 40%, rgba(80,170,80,0.18), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 100% 60%, rgba(200,130,60,0.18), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(180,100,30,0.20), transparent 55%);
+  background-image: var(--bg-grad);
   background-attachment:fixed;
 }
 .wrap{max-width:1140px;margin:0 auto;padding:0 28px 80px}
@@ -601,435 +601,134 @@ if (isAlreadyUnlocked()) {
 <!-- ══════════════════════════════════════════ -->
 <!-- DO NOT REDISTRIBUTE                        -->
 <!-- ══════════════════════════════════════════ -->
-<div id="sheet-url-bar" style="background:var(--card);border-bottom:1px solid var(--border);height:210px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:28px;width:100%;box-sizing:border-box;margin:0;line-height:1;position:relative;overflow:hidden">
-  <!-- Garden Tower Defense background scene -->
+<div id="sheet-url-bar" style="border-bottom:1px solid var(--border);height:160px;display:flex;align-items:center;justify-content:center;width:100%;box-sizing:border-box;margin:0;line-height:1;position:relative;overflow:hidden">
   <style>
     @keyframes gradShift{0%{background-position:0% center}100%{background-position:200% center}}
-    /* Bug locomotion: translate across screen */
-    @keyframes bugMarch{0%{transform:translateX(-80px)}100%{transform:translateX(calc(100vw + 80px))}}
-    @keyframes bugMarch2{0%{transform:translateX(calc(100vw + 80px)) scaleX(-1)}100%{transform:translateX(-80px) scaleX(-1)}}
-    /* Body bob — subtle vertical bounce synced to step cycle */
-    @keyframes bodyBob{0%,100%{transform:translateY(0px) rotate(-1deg)}50%{transform:translateY(-2px) rotate(1deg)}}
-    /* Each leg pair gets a staggered swing — tight range so legs stay under body */
-    @keyframes legSwingA{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
-    @keyframes legSwingB{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}
-    @keyframes legSwingC{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
-    /* Antenna wiggle */
-    @keyframes antennaWig{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-    /* Flower sway */
-    @keyframes sway{0%,100%{transform:rotate(-3deg) translateX(0)}50%{transform:rotate(3deg) translateX(1px)}}
-    /* Sunflower head nod */
-    @keyframes headNod{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-    /* Butterfly flutter */
-    @keyframes flutter{0%,100%{transform:scaleX(1) translateY(0)}50%{transform:scaleX(0.3) translateY(-3px)}}
-    @keyframes butterflyFloat{0%{transform:translateX(-60px) translateY(0)}25%{transform:translateX(25vw) translateY(-12px)}50%{transform:translateX(50vw) translateY(4px)}75%{transform:translateX(75vw) translateY(-8px)}100%{transform:translateX(calc(100vw + 60px)) translateY(0)}}
-    @keyframes butterflyFloat2{0%{transform:translateX(calc(100vw+60px)) scaleX(-1) translateY(0)}50%{transform:translateX(40vw) scaleX(-1) translateY(-10px)}100%{transform:translateX(-60px) scaleX(-1) translateY(0)}}
-    @keyframes cloudDrift{0%{transform:translateX(-120px)}100%{transform:translateX(calc(100vw + 120px))}}
+    #sheet-url-bar{ background: var(--header-ombre); }
+    #header-glow{ position:absolute;inset:0;background:var(--header-glow-layer);pointer-events:none; }
 
-    .gtd-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;
-      background:linear-gradient(180deg,#87ceeb 0%,#b8e4f8 22%,#d4f0c0 40%,#8bc840 52%,#5aaa2a 60%,#3d8010 66%,#4aaa18 72%,#3d8010 78%,#5a8820 83%,#c06820 92%,#8b4a12 100%)}
-    .gtd-ground{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(180deg,#6ac832 0%,#4aaa18 18%,#3a8010 35%,#c87030 68%,#8b4a12 100%)}
-    .gtd-ground-stripe{position:absolute;bottom:128px;left:0;right:0;height:7px;background:linear-gradient(180deg,#99ee50,#66cc28);opacity:1}
-    .gtd-ground-hi{position:absolute;bottom:133px;left:0;right:0;height:3px;background:#bbff70;opacity:.6}
+    /* ant march */
+    @keyframes antMarch{0%{transform:translateX(-60px)}100%{transform:translateX(calc(100vw + 60px))}}
+    @keyframes antMarch2{0%{transform:translateX(calc(100vw + 60px)) scaleX(-1)}100%{transform:translateX(-60px) scaleX(-1)}}
+    @keyframes antBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+    @keyframes antLegA{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
+    @keyframes antLegB{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-20deg)}}
+    @keyframes antAnt{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+    .ant-wrap{position:absolute;bottom:8px;display:flex;align-items:center}
+    .ant-wrap.fwd{animation:antMarch linear infinite}
+    .ant-wrap.rev{animation:antMarch2 linear infinite}
+    .ant-body{animation:antBob .38s ease-in-out infinite}
+    .ant-la{transform-origin:center;animation:antLegA .38s ease-in-out infinite}
+    .ant-lb{transform-origin:center;animation:antLegB .38s ease-in-out infinite}
+    .ant-aa{transform-origin:bottom center;animation:antAnt .6s ease-in-out infinite}
+    .ant-ab{transform-origin:bottom center;animation:antAnt .6s ease-in-out infinite .3s}
 
-    /* clouds */
-    .gtd-cloud{position:absolute;top:6px;background:rgba(255,255,255,0.75);border-radius:20px;animation:cloudDrift linear infinite}
-    .gtd-cloud::before,.gtd-cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.75);border-radius:50%}
-
-    /* ── FLOWER PLANT ── */
-    .gtd-plant{position:absolute;bottom:120px;display:flex;flex-direction:column;align-items:center;transform-origin:bottom center;animation:sway 3s ease-in-out infinite}
-    .gtd-stem{width:4px;border-radius:2px;background:linear-gradient(180deg,#4a9028,#3a7020)}
-    .gtd-leaf{position:absolute;width:10px;height:6px;background:#5aaa30;border-radius:50% 0 50% 0;transform-origin:left center}
-    .gtd-flower-head{animation:headNod 2.5s ease-in-out infinite;transform-origin:bottom center}
-
-    /* ── BUTTERFLY ── */
-    .gtd-butterfly{position:absolute;animation:butterflyFloat linear infinite}
-    .gtd-butterfly2{position:absolute;animation:butterflyFloat2 linear infinite}
-    .btfly-wing{animation:flutter .35s ease-in-out infinite;transform-origin:center}
-    .btfly-wing2{animation:flutter .35s ease-in-out infinite .175s;transform-origin:center}
-
-    /* ── BUG ── */
-    .gtd-bugwrap{position:absolute;bottom:122px;display:flex;align-items:center}
-    .gtd-bugwrap.fwd{animation:bugMarch linear infinite}
-    .gtd-bugwrap.rev{animation:bugMarch2 linear infinite}
-    .gtd-bug-svg{overflow:visible;display:block}
-    /* Leg pivot groups — transform-origin at body bottom so legs only swing downward */
-    .leg-pair-front .leg-l{transform-origin:28px 16px;animation:legSwingA .42s ease-in-out infinite}
-    .leg-pair-front .leg-r{transform-origin:28px 16px;animation:legSwingB .42s ease-in-out infinite}
-    .leg-pair-mid   .leg-l{transform-origin:22px 16px;animation:legSwingB .42s ease-in-out infinite}
-    .leg-pair-mid   .leg-r{transform-origin:22px 16px;animation:legSwingA .42s ease-in-out infinite}
-    .leg-pair-back  .leg-l{transform-origin:16px 16px;animation:legSwingA .42s ease-in-out infinite}
-    .leg-pair-back  .leg-r{transform-origin:16px 16px;animation:legSwingB .42s ease-in-out infinite}
-    .gtd-bug-body-g{animation:bodyBob .42s ease-in-out infinite}
-    .gtd-antenna{transform-origin:33px 5px;animation:antennaWig .7s ease-in-out infinite}
-    .gtd-antenna2{transform-origin:33px 5px;animation:antennaWig .7s ease-in-out infinite;animation-delay:.35s}
+    /* ant colors per theme */
+    [data-theme="default"] { --ant-body:#1a0e04; --ant-hi:#3a2010; }
+    [data-theme="fire"]    { --ant-body:#200400; --ant-hi:#4a1008; }
+    [data-theme="forest"]  { --ant-body:#0a1a08; --ant-hi:#1a3810; }
+    [data-theme="arctic"]  { --ant-body:#102840; --ant-hi:#1e4868; }
+    [data-theme="cosmic"]  { --ant-body:#100828; --ant-hi:#2a1050; }
+    [data-theme="default"]{
+      --header-ombre: linear-gradient(150deg,#4a2810 0%,#7a4820 30%,#a86830 60%,#c48838 80%,#8a5020 100%);
+      --header-glow-layer: radial-gradient(ellipse 80% 70% at 50% 100%,rgba(180,110,30,0.22),transparent 70%);
+    }
+    [data-theme="fire"]{
+      --header-ombre: linear-gradient(150deg,#250500 0%,#500d00 30%,#7a1500 60%,#a02000 80%,#5a0e00 100%);
+      --header-glow-layer: radial-gradient(ellipse 80% 70% at 50% 100%,rgba(160,40,0,0.20),transparent 70%);
+    }
+    [data-theme="forest"]{
+      --header-ombre: linear-gradient(150deg,#060e06 0%,#0c1e0a 30%,#142e10 60%,#1c3c16 80%,#0a1a08 100%);
+      --header-glow-layer: radial-gradient(ellipse 80% 70% at 50% 100%,rgba(30,80,18,0.22),transparent 70%);
+    }
+    [data-theme="arctic"]{
+      --header-ombre: linear-gradient(150deg,#1a3e5a 0%,#26587e 30%,#3070a0 60%,#3880b8 80%,#204e74 100%);
+      --header-glow-layer: radial-gradient(ellipse 80% 70% at 50% 100%,rgba(80,160,220,0.18),transparent 70%);
+    }
+    [data-theme="cosmic"]{
+      --header-ombre: linear-gradient(150deg,#06021a 0%,#100530 30%,#1e0848 60%,#2c0c60 80%,#0e0428 100%);
+      --header-glow-layer: radial-gradient(ellipse 80% 70% at 50% 100%,rgba(120,40,200,0.20),transparent 70%);
+    }
   </style>
-  <div class="gtd-bg" aria-hidden="true">
-    <div class="gtd-ground"></div>
-    <div class="gtd-ground-stripe"></div>
-    <div class="gtd-ground-hi"></div>
+  <div id="header-glow"></div>
 
-    <!-- Clouds -->
-    <div class="gtd-cloud" style="width:60px;height:14px;top:8px;animation-duration:40s;animation-delay:-10s">
-      <div style="position:absolute;width:28px;height:22px;background:rgba(255,255,255,0.75);border-radius:50%;top:-10px;left:8px"></div>
-      <div style="position:absolute;width:20px;height:18px;background:rgba(255,255,255,0.75);border-radius:50%;top:-8px;left:28px"></div>
-    </div>
-    <div class="gtd-cloud" style="width:44px;height:10px;top:12px;animation-duration:55s;animation-delay:-28s">
-      <div style="position:absolute;width:20px;height:16px;background:rgba(255,255,255,0.75);border-radius:50%;top:-8px;left:6px"></div>
-      <div style="position:absolute;width:14px;height:13px;background:rgba(255,255,255,0.75);border-radius:50%;top:-6px;left:22px"></div>
-    </div>
-    <div class="gtd-cloud" style="width:50px;height:12px;top:5px;animation-duration:48s;animation-delay:-38s">
-      <div style="position:absolute;width:24px;height:19px;background:rgba(255,255,255,0.75);border-radius:50%;top:-9px;left:6px"></div>
-      <div style="position:absolute;width:18px;height:15px;background:rgba(255,255,255,0.75);border-radius:50%;top:-7px;left:26px"></div>
-    </div>
-
-    <!-- Butterflies -->
-    <div class="gtd-butterfly" style="top:12px;animation-duration:18s;animation-delay:-4s">
-      <svg width="18" height="12" viewBox="0 0 18 12">
-        <ellipse class="btfly-wing"  cx="5"  cy="6" rx="5" ry="4" fill="#e060d0" opacity=".85"/>
-        <ellipse class="btfly-wing2" cx="13" cy="6" rx="5" ry="4" fill="#c040b0" opacity=".85"/>
-        <line x1="9" y1="2" x2="9" y2="10" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="gtd-butterfly2" style="top:18px;animation-duration:24s;animation-delay:-12s">
-      <svg width="16" height="10" viewBox="0 0 18 12">
-        <ellipse class="btfly-wing"  cx="5"  cy="6" rx="5" ry="4" fill="#40c8e0" opacity=".85"/>
-        <ellipse class="btfly-wing2" cx="13" cy="6" rx="5" ry="4" fill="#20a8c0" opacity=".85"/>
-        <line x1="9" y1="2" x2="9" y2="10" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="gtd-butterfly" style="top:8px;animation-duration:30s;animation-delay:-20s">
-      <svg width="14" height="9" viewBox="0 0 18 12">
-        <ellipse class="btfly-wing"  cx="5"  cy="6" rx="5" ry="4" fill="#f8a020" opacity=".85"/>
-        <ellipse class="btfly-wing2" cx="13" cy="6" rx="5" ry="4" fill="#e08010" opacity=".85"/>
-        <line x1="9" y1="2" x2="9" y2="10" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <!-- ── SUNFLOWERS (SVG for crisp petals, matching v51 quality) ── -->
-    <!-- Flower 1 -->
-    <div class="gtd-plant" style="left:7%;animation-duration:2.9s;animation-delay:0s">
-      <div class="gtd-flower-head" style="animation-duration:2.9s">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <!-- petals -->
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(315 16 16)"/>
-          <!-- center -->
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <!-- seeds pattern -->
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:32px"></div>
-    </div>
-    <!-- Flower 2 (bigger) -->
-    <div class="gtd-plant" style="left:14%;animation-duration:3.3s;animation-delay:.5s;transform:scale(1.25)">
-      <div class="gtd-flower-head" style="animation-duration:3.1s;animation-delay:.3s">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:28px"></div>
-    </div>
-    <!-- Flower 3 -->
-    <div class="gtd-plant" style="left:21%;animation-duration:2.6s;animation-delay:1s">
-      <div class="gtd-flower-head" style="animation-duration:2.7s;animation-delay:.8s">
-        <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(22  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(67  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(112 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(157 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(202 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(247 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(292 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(337 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#7a4a0e"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:26px"></div>
-    </div>
-    <!-- CENTER flowers to fill the gap -->
-    <div class="gtd-plant" style="left:38%;animation-duration:3.0s;animation-delay:.4s;transform:scale(0.9)">
-      <div class="gtd-flower-head" style="animation-duration:2.8s;animation-delay:.2s">
-        <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:30px"></div>
-    </div>
-    <div class="gtd-plant" style="left:44%;animation-duration:2.7s;animation-delay:.9s;transform:scale(1.15)">
-      <div class="gtd-flower-head" style="animation-duration:2.5s;animation-delay:.6s">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e040d0" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#c028b0" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e040d0" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#c028b0" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e040d0" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#c028b0" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e040d0" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#c028b0" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#5a2080"/>
-          <circle cx="16" cy="16" r="5" fill="#7a30a0"/>
-          <circle cx="14" cy="14" r="1.2" fill="#3a1060" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#3a1060" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#3a1060" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:26px"></div>
-    </div>
-    <div class="gtd-plant" style="left:50%;animation-duration:3.2s;animation-delay:0.1s;transform:scale(0.85)">
-      <div class="gtd-flower-head" style="animation-duration:3s">
-        <svg width="26" height="26" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#20c8e0" transform="rotate(22  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#10a8c0" transform="rotate(67  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#20c8e0" transform="rotate(112 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#10a8c0" transform="rotate(157 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#20c8e0" transform="rotate(202 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#10a8c0" transform="rotate(247 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#20c8e0" transform="rotate(292 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#10a8c0" transform="rotate(337 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#0a4050"/>
-          <circle cx="16" cy="16" r="5" fill="#0e5868"/>
-          <circle cx="14" cy="14" r="1.2" fill="#082838" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#082838" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#082838" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:28px"></div>
-    </div>
-    <div class="gtd-plant" style="left:56%;animation-duration:2.9s;animation-delay:.7s;transform:scale(1.05)">
-      <div class="gtd-flower-head" style="animation-duration:2.7s;animation-delay:.5s">
-        <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f8d820" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f0c818" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f8d820" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f0c818" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f8d820" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f0c818" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f8d820" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#f0c818" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:32px"></div>
-    </div>
-    <div class="gtd-plant" style="left:62%;animation-duration:3.4s;animation-delay:1.3s;transform:scale(0.9)">
-      <div class="gtd-flower-head" style="animation-duration:3.2s;animation-delay:1.1s">
-        <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(22  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(67  16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(112 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(157 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(202 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(247 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#ff6030" transform="rotate(292 16 16)"/>
-          <ellipse cx="16" cy="5" rx="3.5" ry="6" fill="#e84818" transform="rotate(337 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:25px"></div>
-    </div>
-    <div class="gtd-plant" style="right:7%;animation-duration:3.1s;animation-delay:.2s">
-      <div class="gtd-flower-head" style="animation-duration:3s;animation-delay:.1s">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f0c818" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:30px"></div>
-    </div>
-    <div class="gtd-plant" style="right:15%;animation-duration:2.8s;animation-delay:.7s;transform:scale(1.2)">
-      <div class="gtd-flower-head" style="animation-duration:2.6s;animation-delay:.5s">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(0   16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(45  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(90  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(135 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(180 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(225 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#fce030" transform="rotate(270 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f4c820" transform="rotate(315 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#8b5210"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:26px"></div>
-    </div>
-    <div class="gtd-plant" style="right:24%;animation-duration:3.5s;animation-delay:1.2s">
-      <div class="gtd-flower-head" style="animation-duration:3.3s;animation-delay:1s">
-        <svg width="26" height="26" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(22  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(67  16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(112 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(157 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(202 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(247 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#f8d820" transform="rotate(292 16 16)"/>
-          <ellipse cx="16" cy="5"  rx="3.5" ry="6" fill="#e8c010" transform="rotate(337 16 16)"/>
-          <circle cx="16" cy="16" r="7" fill="#6b3d08"/>
-          <circle cx="16" cy="16" r="5" fill="#7a4a0e"/>
-          <circle cx="14" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="18" cy="14" r="1.2" fill="#5a2e06" opacity=".8"/>
-          <circle cx="16" cy="17" r="1.2" fill="#5a2e06" opacity=".8"/>
-        </svg>
-      </div>
-      <div class="gtd-stem" style="height:24px"></div>
-    </div>
-
-    <!-- ── BUGS with proper walking gait (SVG + CSS tripod animation) ── -->
-    <!-- Bug 1: walks left→right -->
-    <div class="gtd-bugwrap fwd" style="animation-duration:15s;bottom:120px">
-      <svg class="gtd-bug-svg" width="44" height="26" viewBox="0 0 44 26">
-        <g class="gtd-bug-body-g">
-          <!-- antennae -->
-          <!-- legs — below body only -->
-          <g class="leg-pair-front">
-            <line class="leg-l" x1="28" y1="16" x2="25" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <g class="leg-pair-mid">
-            <line class="leg-l" x1="22" y1="16" x2="19" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <g class="leg-pair-back">
-            <line class="leg-l" x1="16" y1="16" x2="13" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <!-- body (drawn on top of legs) -->
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="#cc2010"/>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="none" stroke="#991808" stroke-width="1"/>
-          <!-- shell line -->
-          <line x1="22" y1="4" x2="22" y2="16" stroke="#991808" stroke-width="1" opacity=".6"/>
-          <!-- spots -->
-          <circle cx="19" cy="9"  r="2" fill="#881208" opacity=".7"/>
-          <circle cx="25" cy="11" r="2" fill="#881208" opacity=".7"/>
-          <!-- head -->
-          <circle cx="33" cy="10" r="5.5" fill="#aa1a0a"/>
-          <circle cx="34.5" cy="8.5" r="1.2" fill="#fff" opacity=".6"/>
-          <!-- antennae — pivot from top of head -->
-          <line class="gtd-antenna"  x1="33" y1="5" x2="35" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-          <line class="gtd-antenna2" x1="33" y1="5" x2="31" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-        </g>
-      </svg>
-    </div>
-
-    <!-- Bug 2: walks right→left (flipped) -->
-    <div class="gtd-bugwrap rev" style="animation-duration:22s;animation-delay:-9s;bottom:122px">
-      <svg class="gtd-bug-svg" width="44" height="26" viewBox="0 0 44 26">
-        <g class="gtd-bug-body-g" style="animation-delay:.21s">
-          <g class="leg-pair-front"><line class="leg-l" x1="28" y1="16" x2="25" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-mid">  <line class="leg-l" x1="22" y1="16" x2="19" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-back"> <line class="leg-l" x1="16" y1="16" x2="13" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="#10b8c8"/>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="none" stroke="#0890a0" stroke-width="1"/>
-          <line x1="22" y1="4" x2="22" y2="16" stroke="#0890a0" stroke-width="1" opacity=".6"/>
-          <circle cx="19" cy="9"  r="2" fill="#066878" opacity=".7"/>
-          <circle cx="25" cy="11" r="2" fill="#066878" opacity=".7"/>
-          <circle cx="33" cy="10" r="5.5" fill="#0898b0"/>
-          <circle cx="34.5" cy="8.5" r="1.2" fill="#fff" opacity=".6"/>
-          <line class="gtd-antenna"  x1="33" y1="5" x2="35" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-          <line class="gtd-antenna2" x1="33" y1="5" x2="31" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-        </g>
-      </svg>
-    </div>
-
-    <!-- Bug 3: small green bug going slow right -->
-    <div class="gtd-bugwrap fwd" style="animation-duration:28s;animation-delay:-14s;bottom:121px;transform-origin:center">
-      <svg class="gtd-bug-svg" width="36" height="22" viewBox="0 0 44 26">
-        <g class="gtd-bug-body-g" style="animation-delay:.14s">
-          <g class="leg-pair-front"><line class="leg-l" x1="28" y1="16" x2="25" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-mid">  <line class="leg-l" x1="22" y1="16" x2="19" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-back"> <line class="leg-l" x1="16" y1="16" x2="13" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="#28c848"/>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="none" stroke="#18a030" stroke-width="1"/>
-          <line x1="22" y1="4" x2="22" y2="16" stroke="#18a030" stroke-width="1" opacity=".5"/>
-          <circle cx="19" cy="9"  r="2" fill="#107828" opacity=".7"/>
-          <circle cx="25" cy="11" r="2" fill="#107828" opacity=".7"/>
-          <circle cx="33" cy="10" r="5.5" fill="#20a838"/>
-          <circle cx="34.5" cy="8.5" r="1.2" fill="#fff" opacity=".6"/>
-          <line class="gtd-antenna"  x1="33" y1="5" x2="35" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-          <line class="gtd-antenna2" x1="33" y1="5" x2="31" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-        </g>
-      </svg>
-    </div>
-
-    <!-- Bug 4: small orange bug going right fast -->
-    <div class="gtd-bugwrap fwd" style="animation-duration:12s;animation-delay:-6s;bottom:124px;transform-origin:center">
-      <svg class="gtd-bug-svg" width="38" height="23" viewBox="0 0 44 26">
-        <g class="gtd-bug-body-g" style="animation-delay:.07s">
-          <g class="leg-pair-front"><line class="leg-l" x1="28" y1="16" x2="25" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-mid">  <line class="leg-l" x1="22" y1="16" x2="19" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <g class="leg-pair-back"> <line class="leg-l" x1="16" y1="16" x2="13" y2="19" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></g>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="#f07010"/>
-          <ellipse cx="22" cy="10" rx="10" ry="6.5" fill="none" stroke="#c05008" stroke-width="1"/>
-          <line x1="22" y1="4" x2="22" y2="16" stroke="#c05008" stroke-width="1" opacity=".6"/>
-          <circle cx="19" cy="9"  r="2" fill="#903808" opacity=".7"/>
-          <circle cx="25" cy="11" r="2" fill="#903808" opacity=".7"/>
-          <circle cx="33" cy="10" r="5.5" fill="#d06010"/>
-          <circle cx="34.5" cy="8.5" r="1.2" fill="#fff" opacity=".6"/>
-          <line class="gtd-antenna"  x1="33" y1="5" x2="35" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-          <line class="gtd-antenna2" x1="33" y1="5" x2="31" y2="3" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
-        </g>
-      </svg>
-    </div>
+  <!-- Ants -->
+  <div class="ant-wrap fwd" style="animation-duration:18s;animation-delay:-3s;bottom:6px">
+    <svg width="36" height="20" viewBox="0 0 36 20" overflow="visible">
+      <g class="ant-body">
+        <!-- legs -->
+        <line class="ant-la" x1="14" y1="10" x2="10" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="14" y1="10" x2="10" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="17" y1="10" x2="13" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="17" y1="10" x2="13" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="20" y1="10" x2="24" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="20" y1="10" x2="24" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- abdomen -->
+        <ellipse cx="12" cy="9" rx="6" ry="4.5" fill="var(--ant-body)"/>
+        <!-- thorax -->
+        <ellipse cx="20" cy="9" rx="4" ry="3" fill="var(--ant-body)"/>
+        <!-- head -->
+        <circle cx="27" cy="9" r="3.5" fill="var(--ant-body)"/>
+        <!-- eye -->
+        <circle cx="28.5" cy="7.5" r=".8" fill="var(--ant-hi)" opacity=".7"/>
+        <!-- antennae -->
+        <line class="ant-aa" x1="27" y1="6" x2="30" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+        <line class="ant-ab" x1="27" y1="6" x2="24" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+    </svg>
   </div>
-  <div style="position:relative;z-index:1;padding:4px 28px 6px;border-radius:10px;background:rgba(0,0,0,0.22)"><span style="font-family:'Fredoka One',cursive;font-size:48px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;background:linear-gradient(90deg,#7ec850,#f5c842,#e8622a,#f5c842,#7ec850);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 3s linear infinite;text-shadow:none">🌻 Garden Tower Defense PVP Chart 🌻</span></div>
+
+  <div class="ant-wrap rev" style="animation-duration:24s;animation-delay:-10s;bottom:8px">
+    <svg width="36" height="20" viewBox="0 0 36 20" overflow="visible">
+      <g class="ant-body" style="animation-delay:.19s">
+        <line class="ant-lb" x1="14" y1="10" x2="10" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="14" y1="10" x2="10" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="17" y1="10" x2="13" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="17" y1="10" x2="13" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="20" y1="10" x2="24" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="20" y1="10" x2="24" y2="14" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="12" cy="9" rx="6" ry="4.5" fill="var(--ant-body)"/>
+        <ellipse cx="20" cy="9" rx="4" ry="3" fill="var(--ant-body)"/>
+        <circle cx="27" cy="9" r="3.5" fill="var(--ant-body)"/>
+        <circle cx="28.5" cy="7.5" r=".8" fill="var(--ant-hi)" opacity=".7"/>
+        <line class="ant-aa" x1="27" y1="6" x2="30" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+        <line class="ant-ab" x1="27" y1="6" x2="24" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="ant-wrap fwd" style="animation-duration:30s;animation-delay:-18s;bottom:5px">
+    <svg width="28" height="16" viewBox="0 0 36 20" overflow="visible">
+      <g class="ant-body" style="animation-delay:.09s">
+        <line class="ant-la" x1="14" y1="10" x2="10" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="17" y1="10" x2="13" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-lb" x1="20" y1="10" x2="24" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="12" cy="9" rx="6" ry="4.5" fill="var(--ant-body)"/>
+        <ellipse cx="20" cy="9" rx="4" ry="3" fill="var(--ant-body)"/>
+        <circle cx="27" cy="9" r="3.5" fill="var(--ant-body)"/>
+        <circle cx="28.5" cy="7.5" r=".8" fill="var(--ant-hi)" opacity=".7"/>
+        <line class="ant-aa" x1="27" y1="6" x2="30" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+        <line class="ant-ab" x1="27" y1="6" x2="24" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="ant-wrap fwd" style="animation-duration:14s;animation-delay:-6s;bottom:10px">
+    <svg width="30" height="18" viewBox="0 0 36 20" overflow="visible">
+      <g class="ant-body" style="animation-delay:.27s">
+        <line class="ant-lb" x1="14" y1="10" x2="10" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="17" y1="10" x2="13" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="ant-la" x1="20" y1="10" x2="24" y2="15" stroke="var(--ant-body)" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="12" cy="9" rx="6" ry="4.5" fill="var(--ant-body)"/>
+        <ellipse cx="20" cy="9" rx="4" ry="3" fill="var(--ant-body)"/>
+        <circle cx="27" cy="9" r="3.5" fill="var(--ant-body)"/>
+        <circle cx="28.5" cy="7.5" r=".8" fill="var(--ant-hi)" opacity=".7"/>
+        <line class="ant-aa" x1="27" y1="6" x2="30" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+        <line class="ant-ab" x1="27" y1="6" x2="24" y2="3" stroke="var(--ant-body)" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+  <div style="position:relative;z-index:1;padding:4px 28px 6px;border-radius:10px;background:rgba(0,0,0,0.18)"><span id="header-title" style="font-family:'Fredoka One',cursive;font-size:48px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 3s linear infinite;text-shadow:none">🌻 Garden Tower Defense PVP Chart 🌻</span></div>
   <input id="sheet-url-input" type="hidden" value="">
   <span id="sheet-url-status" style="display:none"></span>
 </div>
@@ -1069,30 +768,30 @@ if (isAlreadyUnlocked()) {
 
   <!-- PERMANENT BANS BANNER — TAB 1 -->
   <div id="always-banned-tab1" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#3a1008;flex-shrink:0">⛔ Always Banned</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned</span>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Transfig</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Witchleaf</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Auranji</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Cryolesia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Ice Dragon</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Treasure Trap</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Transfig</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Witchleaf</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Auranji</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Cryolesia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Ice Dragon</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Treasure Trap</span>
     </div>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto">these 6 are always off the table</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table</span>
   </div>
 
   <!-- PERMANENT BANS BANNER — TAB 2 -->
   <div id="always-banned-tab2" style="background:var(--surface-1);border:1px solid var(--pink-soft);border-radius:8px;padding:14px 20px;margin-bottom:20px;display:none;flex-wrap:wrap;align-items:center;gap:10px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#3a1008;flex-shrink:0">⛔ Always Banned</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);flex-shrink:0">⛔ Always Banned</span>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Bunny Burrow</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Infectia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Ice Dragon</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Cryolesia</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Teslaflora</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:rgba(180,60,20,0.25);border:1px solid var(--pink-soft);color:#2a0a04;text-decoration:line-through">Treasure Trap</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Bunny Burrow</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Infectia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Ice Dragon</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Cryolesia</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Teslaflora</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:3px;background:var(--pink-glow);border:1px solid var(--pink-soft);color:var(--text-dim);text-decoration:line-through">Treasure Trap</span>
     </div>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto">these 6 are always off the table for Tab 2</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);margin-left:auto;opacity:.7">these 6 are always off the table for Tab 2</span>
   </div>
 
   <!-- STEP 1 -->
@@ -3296,6 +2995,320 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Try to fetch sheet in background, silently
 loadSheet();
+</script>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- THEME SYSTEM                               -->
+<!-- ══════════════════════════════════════════ -->
+<style>
+/* ── THEME VARIABLE SETS ── */
+
+/* Default (Earthy/Brown — existing) */
+[data-theme="default"] {
+  --bg:          #b87848;
+  --surface-1:   #a86838;
+  --surface-2:   #985828;
+  --surface-3:   #884a20;
+  --border-dim:  #7a5530;
+  --border:      #5a3a18;
+  --border-hi:   #c48a30;
+  --pink:        #e8622a;
+  --pink-soft:   #b84c1e;
+  --pink-glow:   rgba(232,98,42,0.25);
+  --blue:        #d4a020;
+  --blue-soft:   #b48010;
+  --blue-glow:   rgba(212,160,32,0.22);
+  --purple:      #d4860a;
+  --purple-soft: #b06808;
+  --lavender:    #f0a020;
+  --text:        #1a0e04;
+  --text-dim:    #3a2010;
+  --text-muted:  #6a4020;
+  --win:         #3aaa18;
+  --loss:        #cc4010;
+  --gold:        #c88c10;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(135,190,230,0.18), transparent 50%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(80,170,80,0.12), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(200,130,60,0.14), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(180,100,30,0.16), transparent 55%);
+}
+
+/* Red/Orange — ember */
+[data-theme="fire"] {
+  --bg:          #5a1e0e;
+  --surface-1:   #4e1a0c;
+  --surface-2:   #42160a;
+  --surface-3:   #381208;
+  --border-dim:  #7a3018;
+  --border:      #5a2010;
+  --border-hi:   #c05030;
+  --pink:        #e06838;
+  --pink-soft:   #b84820;
+  --pink-glow:   rgba(224,104,56,0.22);
+  --blue:        #e08830;
+  --blue-soft:   #b86018;
+  --blue-glow:   rgba(224,136,48,0.20);
+  --purple:      #d07028;
+  --purple-soft: #a85018;
+  --lavender:    #f0a060;
+  --text:        #f8e8d8;
+  --text-dim:    #e8c8a8;
+  --text-muted:  #b88060;
+  --win:         #58b828;
+  --loss:        #e05030;
+  --gold:        #d09020;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(180,60,10,0.18), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(120,30,10,0.14), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(200,80,10,0.14), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(80,15,5,0.20), transparent 55%);
+}
+
+/* Green — deep forest */
+[data-theme="forest"] {
+  --bg:          #243e1e;
+  --surface-1:   #1e3618;
+  --surface-2:   #182e12;
+  --surface-3:   #12260e;
+  --border-dim:  #345828;
+  --border:      #1e3e14;
+  --border-hi:   #5a9038;
+  --pink:        #70c848;
+  --pink-soft:   #4a9830;
+  --pink-glow:   rgba(112,200,72,0.18);
+  --blue:        #90d860;
+  --blue-soft:   #60a838;
+  --blue-glow:   rgba(144,216,96,0.16);
+  --purple:      #68b840;
+  --purple-soft: #489828;
+  --lavender:    #a8e878;
+  --text:        #e0f0d0;
+  --text-dim:    #b0d890;
+  --text-muted:  #789860;
+  --win:         #88d840;
+  --loss:        #e05828;
+  --gold:        #c8b818;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(40,140,20,0.16), transparent 50%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(20,90,10,0.14), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(50,120,18,0.12), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(10,50,8,0.18), transparent 55%);
+}
+
+/* Light Blue — arctic sky */
+[data-theme="arctic"] {
+  --bg:          #3a6888;
+  --surface-1:   #305878;
+  --surface-2:   #284e6e;
+  --surface-3:   #204460;
+  --border-dim:  #4a7898;
+  --border:      #285a7a;
+  --border-hi:   #80b8d8;
+  --pink:        #a8d8f0;
+  --pink-soft:   #78b0d0;
+  --pink-glow:   rgba(168,216,240,0.20);
+  --blue:        #c8e8f8;
+  --blue-soft:   #98c8e0;
+  --blue-glow:   rgba(200,232,248,0.18);
+  --purple:      #b0d8f0;
+  --purple-soft: #80b8d8;
+  --lavender:    #e0f0fa;
+  --text:        #e8f4fc;
+  --text-dim:    #b8d8ee;
+  --text-muted:  #7098b8;
+  --win:         #48c878;
+  --loss:        #e05840;
+  --gold:        #d8b828;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(140,200,240,0.16), transparent 50%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(60,140,200,0.12), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(100,180,230,0.12), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20,80,140,0.16), transparent 55%);
+}
+
+/* Blue/Purple/Pink — cosmic */
+[data-theme="cosmic"] {
+  --bg:          #1a0838;
+  --surface-1:   #240c48;
+  --surface-2:   #2e1058;
+  --surface-3:   #3a1468;
+  --border-dim:  #4a2878;
+  --border:      #2a1050;
+  --border-hi:   #a050e0;
+  --pink:        #f050c0;
+  --pink-soft:   #c030a0;
+  --pink-glow:   rgba(240,80,192,0.22);
+  --blue:        #60a0ff;
+  --blue-soft:   #4070d0;
+  --blue-glow:   rgba(96,160,255,0.20);
+  --purple:      #c060ff;
+  --purple-soft: #9040d0;
+  --lavender:    #e0a0ff;
+  --text:        #f0e8ff;
+  --text-dim:    #d0b8f8;
+  --text-muted:  #9070c0;
+  --win:         #40d890;
+  --loss:        #e84070;
+  --gold:        #e8c030;
+  --bg-grad:     radial-gradient(ellipse 100% 60% at 50% 0%, rgba(120,40,200,0.25), transparent 50%),
+                 radial-gradient(ellipse 70% 50% at 0% 40%, rgba(60,20,160,0.18), transparent 55%),
+                 radial-gradient(ellipse 70% 50% at 100% 60%, rgba(200,40,180,0.16), transparent 55%),
+                 radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20,8,80,0.25), transparent 55%);
+}
+
+/* ── THEME PANEL ── */
+#theme-panel-wrap {
+  position:fixed;
+  right:0; top:50%;
+  transform:translateY(-50%);
+  z-index:9000;
+  display:flex;
+  align-items:center;
+  gap:0;
+}
+#theme-toggle-btn {
+  width:24px;
+  height:80px;
+  background:var(--surface-2);
+  border:1px solid var(--border-dim);
+  border-right:none;
+  border-radius:6px 0 0 6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-muted);
+  transition:background .2s, color .2s;
+  writing-mode:vertical-rl;
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  flex-shrink:0;
+  user-select:none;
+  opacity:.7;
+}
+#theme-toggle-btn:hover { background:var(--surface-3); color:var(--text-dim); opacity:1; }
+
+#theme-panel {
+  background:var(--surface-1);
+  border:1px solid var(--border-dim);
+  border-right:none;
+  border-radius:8px 0 0 8px;
+  padding:14px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  width:0;
+  overflow:hidden;
+  transition:width .22s cubic-bezier(.4,0,.2,1), padding .22s, opacity .18s;
+  opacity:0;
+  pointer-events:none;
+  box-shadow:-4px 0 16px rgba(0,0,0,0.12);
+}
+#theme-panel.open {
+  width:136px;
+  opacity:1;
+  pointer-events:all;
+}
+.theme-panel-title {
+  font-family:'Inter',sans-serif;
+  font-size:10px;
+  letter-spacing:.05em;
+  color:var(--text-muted);
+  white-space:nowrap;
+  margin-bottom:4px;
+  opacity:.7;
+}
+.theme-swatch {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  border-radius:4px;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:border-color .18s, background .18s;
+  white-space:nowrap;
+}
+.theme-swatch:hover { border-color:var(--border-dim); background:var(--surface-2); }
+.theme-swatch.active { border-color:var(--border-dim); background:var(--surface-2); }
+.theme-dot {
+  width:12px; height:12px;
+  border-radius:50%;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,0.15);
+  opacity:.85;
+}
+.theme-label {
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  letter-spacing:.01em;
+  color:var(--text-muted);
+  opacity:.85;
+}
+.theme-swatch:hover .theme-label,
+.theme-swatch.active .theme-label { color:var(--text-dim); opacity:1; }
+
+/* apply bg-grad to body dynamically */
+body { background-image: var(--bg-grad); }
+</style>
+
+<!-- THEME PANEL HTML -->
+<div id="theme-panel-wrap">
+  <button id="theme-toggle-btn" onclick="toggleThemePanel()" title="Themes">🎨 Theme</button>
+  <div id="theme-panel">
+    <div class="theme-panel-title">Theme</div>
+    <div class="theme-swatch active" data-theme-id="default" onclick="applyTheme('default')">
+      <div class="theme-dot" style="background:linear-gradient(135deg,#b87848,#d4860a)"></div>
+      <span class="theme-label">Default</span>
+    </div>
+    <div class="theme-swatch" data-theme-id="fire" onclick="applyTheme('fire')">
+      <div class="theme-dot" style="background:linear-gradient(135deg,#ff4010,#ff9820)"></div>
+      <span class="theme-label">Fire</span>
+    </div>
+    <div class="theme-swatch" data-theme-id="forest" onclick="applyTheme('forest')">
+      <div class="theme-dot" style="background:linear-gradient(135deg,#1a6018,#78e840)"></div>
+      <span class="theme-label">Forest</span>
+    </div>
+    <div class="theme-swatch" data-theme-id="arctic" onclick="applyTheme('arctic')">
+      <div class="theme-dot" style="background:linear-gradient(135deg,#6aa8d8,#e0f4ff)"></div>
+      <span class="theme-label">Arctic</span>
+    </div>
+    <div class="theme-swatch" data-theme-id="cosmic" onclick="applyTheme('cosmic')">
+      <div class="theme-dot" style="background:linear-gradient(135deg,#3a1468,#f050c0)"></div>
+      <span class="theme-label">Cosmic</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── THEME SYSTEM ──
+const TITLE_GRADIENTS = {
+  default: 'linear-gradient(90deg,#7ec850,#f5c842,#e8622a,#f5c842,#7ec850)',
+  fire:    'linear-gradient(90deg,#ff8820,#ff4010,#ff9030,#ff4010,#ff8820)',
+  forest:  'linear-gradient(90deg,#50c830,#a8e840,#68d838,#a8e840,#50c830)',
+  arctic:  'linear-gradient(90deg,#90c8f0,#c8e8ff,#68a8d8,#c8e8ff,#90c8f0)',
+  cosmic:  'linear-gradient(90deg,#c060ff,#f050c0,#60a0ff,#f050c0,#c060ff)',
+};
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('gtd_theme', theme);
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.themeId === theme);
+  });
+  const title = document.getElementById('header-title');
+  if (title) title.style.backgroundImage = TITLE_GRADIENTS[theme] || TITLE_GRADIENTS.default;
+}
+
+function toggleThemePanel() {
+  const panel = document.getElementById('theme-panel');
+  panel.classList.toggle('open');
+}
+
+// Boot: restore saved theme
+(function() {
+  const saved = localStorage.getItem('gtd_theme') || 'default';
+  applyTheme(saved);
+})();
 </script>
 </body>
 </html>
