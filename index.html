@@ -1972,26 +1972,33 @@ function getRecommendedTeam() {
 
   // ════════════════════════════════════════
   // CASE: INFECTIA + BUNNY B BOTH BANNED
-  // KEY_UNITS chain: Shocko → Tesla
-  // Festive Glowthorn · Shocko(→Tesla) · Egg Bask · Confusi · Vine Hair
-  // Less spam coverage → swap Snow for Glowthorn, use Vine Hair line
+  // Vine Hair · Subzero · Bubbloom order for the vine slot
+  // When Subzero is in the team, Snowmobile is the starter
+  // Loadout: Glowthorn · Shocko(→Tesla) · Confusi · Egg Bask · Vine Hair
   // ════════════════════════════════════════
   if (infectiaBanned && bunnyBanned) {
-    // Slot 1: Festive Glowthorn (vine hair loadout always uses Glowthorn, not Snow)
-    const glowtChainBI = ['Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
-    const glowtBI = pick('Festive Glowthorn', glowtChainBI, 'Glowthorn');
     const keyUnit = pick('Shockolate Flora', ['Teslaflora'], 'Shocko/Tesla');
-    const eggChainBI = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
-    const eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
-    // Confusi chain deliberately excludes Bubbloom/Fan Flower — those are reserved for Vine Hair's fallback chain
+    // Confusi chain
     const confuChainBI = ['Rainbow Confusion Plant','Distort Flower','Bounce Shroom','Firecore','Octoshroom'];
     const confuBI = pick('Confusiflora', confuChainBI, 'Confusiflora');
-    // Vine Hair chain: Vine Hair → Bubbloom → Fan Flower → Hypnogaze Stem → Distort Flower
-    const vineChainBI = ['Bubbloom','Fan Flower','Hypnogaze Stem','Distort Flower'];
+    // Vine Hair slot: Vine Hair → Subzero → Bubbloom → Fan Flower → Distort Flower
+    const vineChainBI = ['Subzero Stem','Bubbloom','Fan Flower','Distort Flower'];
     const vineBI = pick('Vine Hair', vineChainBI, 'Vine Hair');
+    // If Subzero ended up in the vine slot, use Snowmobile as starter; otherwise Glowthorn
+    const useSubzeroInVine = vineBI === 'Subzero Stem';
+    let starterBI, eggBI;
+    if (useSubzeroInVine) {
+      starterBI = pick('Snowmobile Shoveler', ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Snowmobile');
+      const eggChainBI = ['Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+      eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
+    } else {
+      starterBI = pick('Festive Glowthorn', ['Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'], 'Glowthorn');
+      const eggChainBI = ['Subzero Stem','Frost Golem','Ooga Booga','Distort Flower','Winterray'];
+      eggBI = pick('Egg Basket Stem', eggChainBI, 'Egg Basket');
+    }
     return {
-      units: [glowtBI, keyUnit, eggBI, confuBI, vineBI],
-      note: 'Infectia + Bunny B banned → Glowthorn · Shocko · Egg Basket · Confusi · Vine Hair' +
+      units: [starterBI, keyUnit, confuBI, eggBI, vineBI],
+      note: 'Infectia + Bunny B banned → ' + starterBI + ' · Shocko · Confusi · Egg Basket · Vine Hair' +
             (swaps.length ? ' · Swaps: ' + swaps.join(' · ') : '')
     };
   }
@@ -2074,7 +2081,10 @@ function getRecommendedTeam() {
   }
 
   // Ooga slot (5th): Ooga → Distort → Frost Golem → Subzero → Winterray → Bounce → Firecore → Octo → Starbud → Blink → Regen
-  const oogaChain = ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
+  // Special: if both Ooga AND Distort are banned, use Confusiflora first
+  const oogaChain = (oogaBanned && distortBanned)
+    ? ['Confusiflora','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower']
+    : ['Distort Flower','Frost Golem','Subzero Stem','Winterray','Bounce Shroom','Firecore','Octoshroom','Starbud','Blinkbloom','Regen Flower'];
   const ooga = pick('Ooga Booga', oogaChain, 'Ooga');
 
   return {
