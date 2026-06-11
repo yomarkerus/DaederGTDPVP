@@ -1901,8 +1901,9 @@ function getRecommendedTeam() {
   const snowChain = ['Festive Glowthorn','Starbud','Blinkbloom','Regen Flower','Prismleaf','Electric Beetroot'];
   const snow = pick('Snowmobile Shoveler', snowChain, 'Snowmobile');
 
-  // ── SPECIAL CASE: Tesla + Bunny Burrow + Infectia all banned → use Tab 2 logic ──
-  if (teslaBanned && bunnyBanned && infectiaBanned) {
+  // ── SPECIAL CASE: Tesla + Bunny Burrow + Infectia all banned (but Shocko still available) → use Tab 2 logic ──
+  // If Shocko is also banned, fall through to the bigFourBanned >= 4 block (Vine Hair loadout) instead.
+  if (teslaBanned && bunnyBanned && infectiaBanned && !shockoBanned) {
     return getRecommendedTeam_Tab2(true);
   }
 
